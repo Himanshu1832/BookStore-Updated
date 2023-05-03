@@ -9,6 +9,10 @@ export class UsersService {
     constructor(@Inject(USER_REPOSITORY) private readonly userRepository: typeof User) { }
 
     async create(user: UserDto): Promise<User> {
+        console.log("user");
+
+        console.log(user);
+
         return await this.userRepository.create<User>(user);
     }
 

@@ -5,6 +5,7 @@ import { useCheckUser } from '../../Hooks/CustumHooks';
 import { LoginFormValues } from '../../Interface/Interface';
 // import { AuthContext } from "../../Hooks/CustumHooks";
 import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -14,7 +15,8 @@ const LoginForm = () => {
 
 // const { useCheckUser,currentUser } = useContext(AuthContext);
 // console.log(currentUser)
-
+const navigate = useNavigate();
+  
     const queryClient = useQueryClient();
     const form = useForm<LoginFormValues>();
     const { register, control, handleSubmit, formState } = form;
@@ -27,6 +29,7 @@ const LoginForm = () => {
           ...data
         };
         mutate(employee);
+        navigate("/");
       };
 
 

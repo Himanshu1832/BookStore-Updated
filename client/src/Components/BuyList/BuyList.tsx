@@ -4,37 +4,46 @@ import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import Card from "../Card/Card";
+import { useQuery } from 'react-query'
 
 // import Pagination from "../Pagination/Pagination";
 // import BuyInformation from "../BuyInformation/BuyInformation";
 
 import "./BuyList.css";
 
+
+const getBookData = async () => {
+  return await axios.get('http://localhost:8000/api/addbook')
+  
+}
+
+
 function BuyList() {
+
   const [posts, setPosts] = useState([]);
 
   
 //@ts-ignore
   var user = JSON.parse(localStorage.getItem("user"));
-  // const college = user?.college_name.toLowerCase();
+  const college = user?.college_name.toLowerCase();
 //@ts-ignore
   var user = JSON.parse( localStorage.getItem('user' ) );
   const uid = user?.id;
   // console.log(college + " college")
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`/posts`);
-        console.log(res.data);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await axios.get(`/posts`);
+  //       console.log(res.data);
 
-        setPosts(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
+  //       setPosts(res.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
   // const [showPerPage, setShowPerPage] = useState(100);
   // const [pagination, setPagination] = useState({
   //   start: 0,
@@ -51,6 +60,43 @@ function BuyList() {
   const [query,setQuery] = useState("");
   console.log(query)
   const keys=["title","college_name","sem"]
+
+
+   const {isLoading , data , isError , error , isFetching , refetch} = useQuery('superheroes',
+    // () => {
+    //     return axios.get('http://localhost:4000/superheroes')
+         getBookData,
+         {
+
+
+            // staleTime: 30000, // default
+
+            // refetchOnMount: false, 
+            // refetchOnMount: true, // default  
+
+            // refetchOnWindowFocus: false,
+            // refetchOnWindowFocus: true,
+            refetchOnWindowFocus: 'always',    // Always ignore the staleTime and always refetch on window focus
+
+
+            //
+
+
+            // refetchInterval: 5000, // default
+
+            // enabled: false,
+
+            // onError,
+            // onSuccess,
+
+
+            //Newbranch newreactquery
+
+            
+
+         })
+
+console.log(data?.data)
 
   return (
     <div className="buylist">
@@ -71,14 +117,16 @@ function BuyList() {
         </div> */}
         <div className="row">
         
-          {posts
+          {data?.data
             // .slice(pagination.start, pagination.end)
-            .filter(function (posts:any) {
-              // return posts.college_name.toLowerCase() == college && posts.uid != uid  && (posts.title.toLowerCase().includes(query.toLowerCase()) || posts.branch.toLowerCase().includes(query) );
-            })
+            // .filter(function (posts:any) {
+            //   return posts.college_name.toLowerCase() == "SKIT" && 
+            //   // posts.uid != 14  && 
+            //   (posts.title.toLowerCase().includes(query.toLowerCase()) || posts.branch.toLowerCase().includes(query) );
+            // })
             // .slice(pagination.start, pagination.end)
             
-            // .filter((item)=>keys.some((key)=>item[key].toLowerCase().includes(query)))
+            .filter((item:any)=>keys.some((key)=>item[key].toLowerCase().includes(query)))
             .map((post:any) => (
               
               <Link to={`/buybookdetails/${post.id}`} className="link-styles">

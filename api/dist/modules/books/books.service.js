@@ -12,32 +12,36 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersService = void 0;
+exports.BooksService = void 0;
 const common_1 = require("@nestjs/common");
 const constants_1 = require("../../core/constants");
-let UsersService = class UsersService {
-    constructor(userRepository) {
-        this.userRepository = userRepository;
+let BooksService = class BooksService {
+    constructor(bookRepository) {
+        this.bookRepository = bookRepository;
     }
-    async create(user) {
-        console.log("user");
-        console.log(user);
-        return await this.userRepository.create(user);
+    async create(Book) {
+        return await this.bookRepository.create(Object.assign({}, Book));
     }
-    async findOneByEmail(email) {
-        return await this.userRepository.findOne({ where: { email } });
+    async findAll() {
+        return await this.bookRepository.findAll({});
     }
-    async findOneByUsername(username) {
-        return await this.userRepository.findOne({ where: { username } });
+    async findOne(id) {
+        return await this.bookRepository.findOne({
+            where: { id },
+        });
     }
-    async findOneById(id) {
-        return await this.userRepository.findOne({ where: { id } });
+    async delete(id, uid) {
+        return await this.bookRepository.destroy({ where: { id, uid } });
+    }
+    async update(id, data, uid) {
+        const [numberOfAffectedRows, [updatedBook]] = await this.bookRepository.update(Object.assign({}, data), { where: { id, uid }, returning: true });
+        return { numberOfAffectedRows, updatedBook };
     }
 };
-UsersService = __decorate([
+BooksService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)(constants_1.USER_REPOSITORY)),
+    __param(0, (0, common_1.Inject)(constants_1.BOOK_REPOSITORY)),
     __metadata("design:paramtypes", [Object])
-], UsersService);
-exports.UsersService = UsersService;
-//# sourceMappingURL=users.service.js.map
+], BooksService);
+exports.BooksService = BooksService;
+//# sourceMappingURL=books.service.js.map

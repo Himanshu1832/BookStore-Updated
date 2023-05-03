@@ -7,6 +7,7 @@ import LoginForm from '../Pages/LoginForm/LoginForm';
 import RegisterForm from '../Pages/RegisterForm/RegisterForm';
 import MyBuys from '../Pages/MyBuys/MyBuys';
 import AddBook from '../Components/AddBook/AddBook';
+import BuyBookDetail from '../Components/BuyBookDetails/BuyBookDetails';
 
 const queryClient = new QueryClient()
 function App() {
@@ -37,6 +38,8 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/" element={<MyBuys />} />
           <Route path="/addbook" element={<AddBook />} />
+          <Route path="/buybookdetails/:id" element={<BuyBookDetail />} />
+
 
 
         </Routes>

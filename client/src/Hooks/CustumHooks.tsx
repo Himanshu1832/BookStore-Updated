@@ -3,8 +3,7 @@
 import { useQuery } from 'react-query'
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import { LoginFormValues } from "../Interface/Interface";
-import { RegisterFormValues } from "../Interface/Interface";
+import { AddBookFormValues, LoginFormValues, RegisterFormValues } from "../Interface/Interface";
 import { createContext, useContext, useEffect, useState } from "react";
 
 
@@ -18,8 +17,23 @@ import { createContext, useContext, useEffect, useState } from "react";
     return response.data;
   };
 
+  const AddBook = async (data: AddBookFormValues) => {
+    
+    //@ts-ignore
+    const token = localStorage.getItem("token") || null
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+};
+
+    const { data: response } = await axios.post('http://localhost:8000/api/addbook', data,config);
+    return response.data;
+  };
+
+
   const setLocally = (data: any) => {
-    localStorage.setItem('bookuser', JSON.stringify(data));
+    localStorage.setItem('user', JSON.stringify(data.data.user));
+    localStorage.setItem('token', JSON.stringify(data.data.token));
+
     alert("success")
     };
 
@@ -39,15 +53,34 @@ export const useCreateUser = () => {
   });
 };
 
+export const useAddBook = () => {
+
+
+  const queryClient = useQueryClient();
+  return useMutation(AddBook, {
+    onSuccess: data => {
+      console.log(data);
+      const message = "success";
+    },
+    onError: () => {
+      alert("there was an error in adding book data")
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('create');
+    }
+  });
+};
+
 
 
 const checkUser = async (data: LoginFormValues) => {
     return await axios.post('http://localhost:8000/api/auth/login', data);
+    
     // console.log(response.data)
     // return response.data;
   };
 
-
+  
 
 
 export const useCheckUser = () => {

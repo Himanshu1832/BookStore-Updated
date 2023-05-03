@@ -11,16 +11,19 @@ import { CartModule } from './modules/cart/cart.module';
 import { CartService } from './modules/cart/cart.service';
 import { CartController } from './modules/cart/cart.controller';
 import { OrderModule } from './modules/order/order.module';
+import { BooksModule } from './modules/books/books.module';
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
         DatabaseModule,
         UsersModule,
         AuthModule,
+        BooksModule,
         // IngredientsModule,
         // CartModule,
         // OrderModule,
     ],
+    
     // providers: [CartService],
     // controllers: [CartController],
     // controllers: [ IngredientsController]

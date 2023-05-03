@@ -14,8 +14,8 @@ function Sidebar() {
   // const { currentUser, logout } = useContext(AuthContext);
 
   // @ts-ignore
-  const currentUser = JSON.parse(localStorage.getItem("bookuser"));
-console.log(currentUser.data )
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+console.log(currentUser?.data )
 
   for (i = 0; i < dropdown.length; i++) {
     dropdown[i].addEventListener("click", function () {
@@ -63,7 +63,7 @@ console.log(currentUser.data )
       <div className="sidebar">
       <div id="title">BookStore</div>
         <div className="sidebar-top">
-        <span>{currentUser.data.user?.username}</span>
+        <span>{currentUser?.username}</span>
           {currentUser!=null ? (
             <span ><button className="btn-logout ">LOGOUT</button>
             </span>

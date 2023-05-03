@@ -10,7 +10,20 @@ export type RegisterFormValues = {
     sem: string;
 }
 
-
+export type AddBookFormValues = {
+    title: string;
+    desc: string;
+    img: string;
+    date:any;
+    uid:number;
+    mrp:number;
+    price:number;
+    college_name: string;
+    course: string;
+    branch: string;
+    sem: string;
+    edition: string;
+}
 
 export type LoginFormValues = {
     username: string;

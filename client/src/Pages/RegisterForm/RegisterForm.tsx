@@ -6,6 +6,7 @@ import { useCreateUser } from '../../Hooks/CustumHooks';
 // import { AuthContext } from "../../Hooks/CustumHooks";
 import { useContext } from "react";
 
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -25,6 +26,7 @@ import { useContext } from "react";
 let rendercount = 0;
 
 const RegisterForm = () => {
+    const navigate = useNavigate();
 
     const queryClient = useQueryClient();
     const form = useForm<RegisterFormValues>()
@@ -39,6 +41,7 @@ const RegisterForm = () => {
             ...data
         };
         mutate(userData);
+        navigate("/login")
     };
 
     rendercount++;
