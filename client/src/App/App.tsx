@@ -5,9 +5,10 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import LoginForm from '../Pages/LoginForm/LoginForm';
 import RegisterForm from '../Pages/RegisterForm/RegisterForm';
-import MyBuys from '../Pages/MyBuys/MyBuys';
+import MyBuys from '../Pages/BooksForBuy/BooksForBuy';
 import AddBook from '../Components/AddBook/AddBook';
 import BuyBookDetail from '../Components/BuyBookDetails/BuyBookDetails';
+import MySell from '../Pages/MySell/MySell';
 
 const queryClient = new QueryClient()
 function App() {
@@ -37,6 +38,8 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/" element={<MyBuys />} />
+          <Route path="/mysell" element={<MySell />} />
+          
           <Route path="/addbook" element={<AddBook />} />
           <Route path="/buybookdetails/:id" element={<BuyBookDetail />} />
 

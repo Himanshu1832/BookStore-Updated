@@ -15,16 +15,11 @@ class CartDto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MinLength)(4),
-    __metadata("design:type", String)
-], CartDto.prototype, "ingName", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
-], CartDto.prototype, "price", void 0);
+], CartDto.prototype, "bookId", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CartDto.prototype, "cartcode", void 0);
+], CartDto.prototype, "userId", void 0);
 exports.CartDto = CartDto;
 //# sourceMappingURL=cart.dto.js.map

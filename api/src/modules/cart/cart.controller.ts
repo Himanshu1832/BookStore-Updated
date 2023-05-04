@@ -14,12 +14,28 @@ export class CartController {
         return await this.cartService.findAll();
     }
 
-    @UseGuards(AuthGuard('jwt'))
+
+    @Get(':id')
+    async findOne(@Param('id') id: number): Promise<CartEntity> {
+        // find the Book with this id
+        const Book = await this.cartService.findOne(id);
+
+        // if the Book doesn't exit in the db, throw a 404 error
+        if (!Book) {
+            throw new NotFoundException('This Book doesn\'t exist in the Cart');
+        }
+
+        // if Book exist, return the Book
+        return Book;
+    }
+
+    // @UseGuards(AuthGuard('jwt'))
     @Post()
     async create(@Body() cart: any[], @Request() req) {
         // console.log(req.user.id);
+        console.log("cart");
 
-        // console.log(cart);
+        console.log(cart);
 
         // create a new post and return the newly created post
         return await this.cartService.create(cart);
@@ -46,10 +62,10 @@ export class CartController {
 
 
     @UseGuards(AuthGuard('jwt'))
-    @Delete(':cartcode')
-    async remove1(@Param('cartcode') cartcode: string) {
+    @Delete(':bookId')
+    async remove1(@Param('bookId') bookId: number) {
         // delete the post with this id
-        const deleted = await this.cartService.delete1(cartcode);
+        const deleted = await this.cartService.delete(bookId);
 
         // if the number of row affected is zero, 
         // then the post doesn't exist in our db

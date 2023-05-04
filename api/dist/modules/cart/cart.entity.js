@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cart = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const user_entity_1 = require("../users/user.entity");
+const books_entity_1 = require("../books/books.entity");
 let Cart = class Cart extends sequelize_typescript_1.Model {
 };
 __decorate([
@@ -20,33 +20,19 @@ __decorate([
         allowNull: false,
     }),
     __metadata("design:type", String)
-], Cart.prototype, "ingName", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.INTEGER,
-        allowNull: false,
-    }),
-    __metadata("design:type", Number)
-], Cart.prototype, "price", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false,
-    }),
-    __metadata("design:type", String)
-], Cart.prototype, "cartcode", void 0);
-__decorate([
-    (0, sequelize_typescript_1.ForeignKey)(() => user_entity_1.User),
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.INTEGER,
-        allowNull: false,
-    }),
-    __metadata("design:type", Number)
 ], Cart.prototype, "userId", void 0);
 __decorate([
-    (0, sequelize_typescript_1.BelongsTo)(() => user_entity_1.User),
-    __metadata("design:type", user_entity_1.User)
-], Cart.prototype, "user", void 0);
+    (0, sequelize_typescript_1.ForeignKey)(() => books_entity_1.Book),
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.INTEGER,
+        allowNull: false,
+    }),
+    __metadata("design:type", Number)
+], Cart.prototype, "bookId", void 0);
+__decorate([
+    (0, sequelize_typescript_1.BelongsTo)(() => books_entity_1.Book),
+    __metadata("design:type", books_entity_1.Book)
+], Cart.prototype, "book", void 0);
 Cart = __decorate([
     sequelize_typescript_1.Table
 ], Cart);

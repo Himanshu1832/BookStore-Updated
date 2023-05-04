@@ -20,7 +20,7 @@ import { BooksModule } from './modules/books/books.module';
         AuthModule,
         BooksModule,
         // IngredientsModule,
-        // CartModule,
+        CartModule,
         // OrderModule,
     ],
     

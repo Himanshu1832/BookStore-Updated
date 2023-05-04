@@ -31,3 +31,8 @@ export type LoginFormValues = {
     password: string;
     
 }
+export type AddCartValues = {
+    bookId: number;
+    userId: string;
+    
+}

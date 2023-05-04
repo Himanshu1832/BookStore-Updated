@@ -23,7 +23,16 @@ let CartController = class CartController {
     async findAll() {
         return await this.cartService.findAll();
     }
+    async findOne(id) {
+        const Book = await this.cartService.findOne(id);
+        if (!Book) {
+            throw new common_1.NotFoundException('This Book doesn\'t exist in the Cart');
+        }
+        return Book;
+    }
     async create(cart, req) {
+        console.log("cart");
+        console.log(cart);
         return await this.cartService.create(cart);
     }
     async remove(req) {
@@ -35,8 +44,8 @@ let CartController = class CartController {
         }
         return 'Successfully deleted';
     }
-    async remove1(cartcode) {
-        const deleted = await this.cartService.delete1(cartcode);
+    async remove1(bookId) {
+        const deleted = await this.cartService.delete(bookId);
         if (deleted === 0) {
             throw new common_1.NotFoundException('This Post doesn\'t exist');
         }
@@ -50,7 +59,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CartController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], CartController.prototype, "findOne", null);
+__decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
@@ -68,10 +83,10 @@ __decorate([
 ], CartController.prototype, "remove", null);
 __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
-    (0, common_1.Delete)(':cartcode'),
-    __param(0, (0, common_1.Param)('cartcode')),
+    (0, common_1.Delete)(':bookId'),
+    __param(0, (0, common_1.Param)('bookId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], CartController.prototype, "remove1", null);
 CartController = __decorate([

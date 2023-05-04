@@ -25,7 +25,7 @@ export const databaseProviders = [{
         }
         const sequelize = new Sequelize(config);
         // sequelize.addModels([User]);
-        sequelize.addModels([User,Book]);
+        sequelize.addModels([User,Book,Cart]);
         await sequelize.sync();
         return sequelize;
     },

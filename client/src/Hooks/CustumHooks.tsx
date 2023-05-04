@@ -3,8 +3,9 @@
 import { useQuery } from 'react-query'
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import { AddBookFormValues, LoginFormValues, RegisterFormValues } from "../Interface/Interface";
+import { AddBookFormValues, AddCartValues, LoginFormValues, RegisterFormValues } from "../Interface/Interface";
 import { createContext, useContext, useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 
 // type AuthContextProviderProps    = {
@@ -28,6 +29,22 @@ import { createContext, useContext, useEffect, useState } from "react";
     const { data: response } = await axios.post('http://localhost:8000/api/addbook', data,config);
     return response.data;
   };
+
+
+  const AddBookToCart = async (data: AddCartValues) => {
+      
+      //@ts-ignore
+      const token = localStorage.getItem("token") || null
+      console.log("Token")
+
+      console.log(token)
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+     };
+  console.log(data)
+      const { data: response } = await axios.post('http://localhost:8000/api/cart', data , config );
+      return response.data;
+    };
 
 
   const setLocally = (data: any) => {
@@ -55,12 +72,15 @@ export const useCreateUser = () => {
 
 export const useAddBook = () => {
 
-
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   return useMutation(AddBook, {
     onSuccess: data => {
       console.log(data);
       const message = "success";
+      navigate("/mysell");
+
     },
     onError: () => {
       alert("there was an error in adding book data")
@@ -69,6 +89,28 @@ export const useAddBook = () => {
       queryClient.invalidateQueries('create');
     }
   });
+};
+
+
+
+export const useAddToCart = () => {
+
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  return useMutation(AddBookToCart, {
+    onSuccess: data => {
+      console.log(data);
+      const message = "success";
+      navigate("/mycart")
+    },
+    onError: () => {
+      alert("there was an error in adding book data  in cart")
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('create');
+    }
+  });
+
 };
 
 
@@ -102,6 +144,43 @@ export const useCheckUser = () => {
         }
       });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // export const AuthContext = createContext({} as any);

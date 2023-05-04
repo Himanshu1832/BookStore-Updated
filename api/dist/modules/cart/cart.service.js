@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CartService = void 0;
 const common_1 = require("@nestjs/common");
+const books_entity_1 = require("../books/books.entity");
 const constants_1 = require("../../core/constants");
 let CartService = class CartService {
     constructor(cartRepository) {
@@ -21,16 +22,21 @@ let CartService = class CartService {
     }
     async create(cart) {
         console.log(cart);
-        return await this.cartRepository.bulkCreate(cart);
+        return await this.cartRepository.create(cart);
     }
     async findAll() {
-        return await this.cartRepository.findAll({});
+        return await this.cartRepository.findAll({
+            include: [{ model: books_entity_1.Book }],
+        });
     }
-    async delete(userId) {
-        return await this.cartRepository.destroy({ where: { userId } });
+    async findOne(id) {
+        return await this.cartRepository.findOne({
+            where: { id },
+            include: [{ model: books_entity_1.Book }],
+        });
     }
-    async delete1(cartcode) {
-        return await this.cartRepository.destroy({ where: { cartcode } });
+    async delete(bookId) {
+        return await this.cartRepository.destroy({ where: { bookId } });
     }
 };
 CartService = __decorate([

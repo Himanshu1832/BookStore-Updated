@@ -1,9 +1,7 @@
 import { Model } from 'sequelize-typescript';
-import { User } from '../users/user.entity';
+import { Book } from '../books/books.entity';
 export declare class Cart extends Model<Cart> {
-    ingName: string;
-    price: number;
-    cartcode: string;
-    userId: number;
-    user: User;
+    userId: string;
+    bookId: number;
+    book: Book;
 }

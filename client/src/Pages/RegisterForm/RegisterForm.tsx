@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 import { useQueryClient } from 'react-query';
 import { RegisterFormValues } from '../../Interface/Interface';
-import { useCreateUser } from '../../Hooks/CustumHooks';
+import { useCreateUser } from '../../Hooks/CustumHooks/useCreateUser';
 // import { AuthContext } from "../../Hooks/CustumHooks";
 import { useContext } from "react";
 
@@ -23,7 +23,6 @@ import { Link, useNavigate } from "react-router-dom";
 //   }
 
 
-let rendercount = 0;
 
 const RegisterForm = () => {
     const navigate = useNavigate();
@@ -33,7 +32,7 @@ const RegisterForm = () => {
     const { register, control, handleSubmit, formState } = form;
     const { errors } = formState;
 
-// const { useCreateUser } = useContext(AuthContext);s
+    // const { useCreateUser } = useContext(AuthContext);s
 
     const { mutate, isLoading } = useCreateUser();
     const onSubmit = (data: RegisterFormValues) => {
@@ -44,14 +43,10 @@ const RegisterForm = () => {
         navigate("/login")
     };
 
-    rendercount++;
     return (
         <div>
 
             <h1>Form</h1>
-            <h2>Render count: {rendercount / 2}</h2>
-
-
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <label htmlFor="name">Name</label>
                 <input type="text" id='name' {...register("name", {
