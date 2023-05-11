@@ -17,6 +17,10 @@ const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const books_service_1 = require("./books.service");
 const book_dto_1 = require("./dto/book.dto");
+const common_2 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const path_1 = require("path");
 let BooksController = class BooksController {
     constructor(BookService) {
         this.BookService = BookService;
@@ -43,12 +47,17 @@ let BooksController = class BooksController {
         }
         return updatedBook;
     }
-    async remove(id, req) {
-        const deleted = await this.BookService.delete(id, req.user.id);
+    async remove(bookId) {
+        console.log(bookId);
+        const deleted = await this.BookService.delete(bookId);
         if (deleted === 0) {
             throw new common_1.NotFoundException('This Book doesn\'t exist');
         }
         return 'Successfully deleted';
+    }
+    uploadImage(file) {
+        console.log(file.filename);
+        return file.filename;
     }
 };
 __decorate([
@@ -83,14 +92,28 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BooksController.prototype, "update", null);
 __decorate([
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Request)()),
+    (0, common_1.Delete)(':bookId'),
+    __param(0, (0, common_1.Param)('bookId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], BooksController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('upload-image'),
+    (0, common_2.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', {
+        storage: (0, multer_1.diskStorage)({
+            destination: '../client/public/uploads',
+            filename: (req, file, callback) => {
+                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                callback(null, file.fieldname + '-' + uniqueSuffix + (0, path_1.extname)(file.originalname));
+            },
+        }),
+    })),
+    __param(0, (0, common_2.UploadedFile)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], BooksController.prototype, "uploadImage", null);
 BooksController = __decorate([
     (0, common_1.Controller)('addbook'),
     __metadata("design:paramtypes", [books_service_1.BooksService])

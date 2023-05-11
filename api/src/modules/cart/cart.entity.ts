@@ -19,7 +19,7 @@ export class Cart extends Model<Cart> {
         type: DataType.STRING,
         allowNull: false,
     })
-    userId: string;
+    userId: number;
 
     @ForeignKey(() => Book)
     @Column({

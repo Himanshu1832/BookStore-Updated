@@ -19,7 +19,7 @@ __decorate([
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
     }),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], Cart.prototype, "userId", void 0);
 __decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => books_entity_1.Book),

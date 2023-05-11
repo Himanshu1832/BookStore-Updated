@@ -6,7 +6,7 @@ export declare class BooksService {
     create(Book: BookDto): Promise<Book>;
     findAll(): Promise<Book[]>;
     findOne(id: any): Promise<Book>;
-    delete(id: any, uid: any): Promise<number>;
+    delete(id: any): Promise<number>;
     update(id: any, data: any, uid: any): Promise<{
         numberOfAffectedRows: number;
         updatedBook: Book;

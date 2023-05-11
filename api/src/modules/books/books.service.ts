@@ -25,8 +25,8 @@ export class BooksService {
     	});
     }
 
-    async delete(id, uid) {
-        return await this.bookRepository.destroy({ where: { id, uid } });
+    async delete(id) {
+        return await this.bookRepository.destroy({ where: { id} });
     }
 
     async update(id, data, uid) {

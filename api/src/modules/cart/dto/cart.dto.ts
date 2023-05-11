@@ -8,5 +8,5 @@ export class CartDto {
     @IsNotEmpty()
     readonly bookId: number;
     @IsNotEmpty()
-    readonly userId: string;
+    readonly userId: number;
 }

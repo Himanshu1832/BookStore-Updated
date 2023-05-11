@@ -4,6 +4,11 @@ import { BooksService } from './books.service';
 import { Book as BookEntity } from './books.entity';
 import { BookDto } from './dto/book.dto';
 
+import {  UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+
 @Controller('addbook')
 export class BooksController {
 
@@ -54,11 +59,12 @@ export class BooksController {
         return updatedBook;
     }
 
-    @UseGuards(AuthGuard('jwt'))
-    @Delete(':id')
-    async remove(@Param('id') id: number, @Request() req) {
+    // @UseGuards(AuthGuard('jwt'))
+    @Delete(':bookId')
+    async remove(@Param('bookId') bookId: number) {
         // delete the Book with this id
-        const deleted = await this.BookService.delete(id, req.user.id);
+        console.log(bookId)
+        const deleted = await this.BookService.delete(bookId);
 
         // if the number of row affected is zero, 
         // then the Book doesn't exist in our db
@@ -69,4 +75,27 @@ export class BooksController {
         // return success message
         return 'Successfully deleted';
     }
+
+
+
+
+
+
+
+    @Post('upload-image')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: '../client/public/uploads',
+        filename: (req, file, callback) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          callback(null, file.fieldname + '-' + uniqueSuffix + extname(file.originalname));
+        },
+      }),
+    }),
+  )
+  uploadImage(@UploadedFile() file: Express.Multer.File) {
+    console.log(file.filename);
+    return file.filename;
+  }
 }

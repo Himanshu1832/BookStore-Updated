@@ -40,14 +40,14 @@ let CartController = class CartController {
         const deleted = await this.cartService.delete(req.user.id);
         console.log(deleted);
         if (deleted === 0) {
-            throw new common_1.NotFoundException('This Post doesn\'t exist');
+            throw new common_1.NotFoundException('This book doesn\'t exist');
         }
         return 'Successfully deleted';
     }
     async remove1(bookId) {
         const deleted = await this.cartService.delete(bookId);
         if (deleted === 0) {
-            throw new common_1.NotFoundException('This Post doesn\'t exist');
+            throw new common_1.NotFoundException('This book doesn\'t exist');
         }
         return 'Successfully deleted';
     }
@@ -82,7 +82,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CartController.prototype, "remove", null);
 __decorate([
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Delete)(':bookId'),
     __param(0, (0, common_1.Param)('bookId')),
     __metadata("design:type", Function),

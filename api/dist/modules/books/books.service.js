@@ -30,8 +30,8 @@ let BooksService = class BooksService {
             where: { id },
         });
     }
-    async delete(id, uid) {
-        return await this.bookRepository.destroy({ where: { id, uid } });
+    async delete(id) {
+        return await this.bookRepository.destroy({ where: { id } });
     }
     async update(id, data, uid) {
         const [numberOfAffectedRows, [updatedBook]] = await this.bookRepository.update(Object.assign({}, data), { where: { id, uid }, returning: true });

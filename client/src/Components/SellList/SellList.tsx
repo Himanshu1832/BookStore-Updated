@@ -25,37 +25,15 @@ const SellList = () => {
   console.log(uid)
 
   const {isLoading , data , isError , error , isFetching , refetch} = useQuery('superheroes',
-  // () => {
-  //     return axios.get('http://localhost:4000/superheroes')
+ 
        getBookData,
        {
-
-
-          // staleTime: 30000, // default
-
-          // refetchOnMount: false, 
-          // refetchOnMount: true, // default  
-
-          // refetchOnWindowFocus: false,
-          // refetchOnWindowFocus: true,
           refetchOnWindowFocus: 'always',    // Always ignore the staleTime and always refetch on window focus
-
-
-          //
-
-
-          // refetchInterval: 5000, // default
-
-          // enabled: false,
-
-          // onError,
-          // onSuccess,
-
-
-          //Newbranch newreactquery
 
        })
 
+       
+console.log(data?.data)
   
   return (
     <div className="buylist">
@@ -63,13 +41,13 @@ const SellList = () => {
         <div className="row md:4">
           {
           data?.data
-          .filter(function (posts:any) {
-            return posts.uid === uid;
+          .filter(function (books:any) {
+            return books.uid === uid;
           })
-          .map((post:any) => (
+          .map((book:any) => (
             // <div className="md-4">
-            <Link to={`/bookdetails/${post.id}`} className="link-styles">
-                <Card key={post.id} post={post} />
+            <Link to={`/sellbookdetail/${book.id}`} className="link-styles">
+                <Card key={book.id} book={book} />
               </Link>
 
             // </div>

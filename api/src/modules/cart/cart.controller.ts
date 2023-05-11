@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, NotFoundException, UseGuards, Request,Delete ,Param} from '@nestjs/common';
+import { Controller, Get, Body, NotFoundException, UseGuards, Request, Delete, Param, Post } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CartService } from './cart.service';
 import { Cart as CartEntity } from './cart.entity';
@@ -10,7 +10,7 @@ export class CartController {
 
     @Get()
     async findAll() {
-        // get all posts in the db
+        // get all books in the db
         return await this.cartService.findAll();
     }
 
@@ -37,23 +37,23 @@ export class CartController {
 
         console.log(cart);
 
-        // create a new post and return the newly created post
+        // create a new book and return the newly created book
         return await this.cartService.create(cart);
     }
 
     @UseGuards(AuthGuard('jwt'))
     @Delete()
     async remove( @Request() req) {
-        // delete the post with this id
+        // delete the book with this id
         console.log(req.user.id);
 
         const deleted = await this.cartService.delete( req.user.id);
 
         // if the number of row affected is zero, 
-        // then the post doesn't exist in our db
+        // then the book doesn't exist in our db
         console.log(deleted);
         if (deleted === 0) {
-            throw new NotFoundException('This Post doesn\'t exist');
+            throw new NotFoundException('This book doesn\'t exist');
         }
 
         // return success message
@@ -61,16 +61,16 @@ export class CartController {
     }
 
 
-    @UseGuards(AuthGuard('jwt'))
+    // @UseGuards(AuthGuard('jwt'))
     @Delete(':bookId')
     async remove1(@Param('bookId') bookId: number) {
-        // delete the post with this id
+        // delete the book with this id
         const deleted = await this.cartService.delete(bookId);
 
         // if the number of row affected is zero, 
-        // then the post doesn't exist in our db
+        // then the book doesn't exist in our db
         if (deleted === 0) {
-            throw new NotFoundException('This Post doesn\'t exist');
+            throw new NotFoundException('This book doesn\'t exist');
         }
 
         // return success message

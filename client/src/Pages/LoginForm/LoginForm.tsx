@@ -6,10 +6,9 @@ import { LoginFormValues } from '../../Interface/Interface';
 // import { AuthContext } from "../../Hooks/CustumHooks";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "./LoginForm.css"
 
 
-
-let rendercount = 0;
 
 const LoginForm = () => {
 
@@ -33,36 +32,48 @@ const navigate = useNavigate();
       };
 
 
-    rendercount++;
     return (
-      <div>
+      <div className='main-div'>
   
-        <h1>Form</h1>
-        <h2>Render count: {rendercount / 2}</h2>
 
         
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className='form'>
             
+      <div className='input-container'>
 
-          <label htmlFor="username">Username</label>
-          <input type="text" id='username' {...register("username", {
+      <div className='form-heading'><h1>Login</h1></div>
+
+      
+      <div className="register-inputs">
+      <label htmlFor="username">Username</label>
+          <input className="input"  type="text" id='username' {...register("username", {
             required: {
               value: true,
               message: "username is req",
             }, 
           })} />
+      </div>
 
           <p>{errors.username?.message}</p>
+
+
+          <div className="register-inputs">
           <label htmlFor="password">Password</label>
-          <input type="password" id='password' {...register("password", {
+          <input className="input"  type="password" id='password' {...register("password", {
             pattern: {
               value:  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
               message: "password is req"
             },
           })} />
+          </div>
+          
           <p>{errors.password?.message}</p>
 
-          <button >Submit</button>
+          <div className='submit-btn-div'>
+                        <button className='submit-btn'>Submit</button>
+                    </div> 
+      </div>
+         
   
         </form>
         <DevTool control={control} />

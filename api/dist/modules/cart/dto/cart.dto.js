@@ -19,7 +19,7 @@ __decorate([
 ], CartDto.prototype, "bookId", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], CartDto.prototype, "userId", void 0);
 exports.CartDto = CartDto;
 //# sourceMappingURL=cart.dto.js.map

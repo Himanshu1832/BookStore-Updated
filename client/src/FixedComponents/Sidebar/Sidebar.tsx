@@ -2,20 +2,25 @@ import "./Sidebar.css";
 // import * as FaIcons from "react-icons/fa";
 import React, { useContext,useEffect,useState } from "react";
 import axios from "axios";
-// import { useState } from "react";
 import { Link } from "react-router-dom";
-// import "./Nav.css";
-
+import { RegisterFormValues } from "../../Interface/Interface";
+import { user } from "../../Context/authContext";
 
 
 function Sidebar() {
   var dropdown = document.getElementsByClassName("dropdown-btn");
   var i;
   // const { currentUser, logout } = useContext(AuthContext);
+  const [currentUser, setCurrentUser] = useState<RegisterFormValues>();
 
+  useEffect(
+   ()=>{
   // @ts-ignore
-  const currentUser = JSON.parse(localStorage.getItem("user"));
-console.log(currentUser?.data )
+  const x = JSON.parse(localStorage.getItem("user"))
+
+   setCurrentUser(x) ;   
+   },[]
+  );
 
   for (i = 0; i < dropdown.length; i++) {
     dropdown[i].addEventListener("click", function () {
@@ -33,28 +38,32 @@ console.log(currentUser?.data )
 
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
-  const [length,getLength] = useState(" ");
+  const [length,getLength] = useState("10");
 
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(false);
 
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get(`/carts/cart1`);
-  //       getLength(res.data
-  //         .filter(function (posts:any) {
-  //           return posts.uid === currentUser?.id;
-  //         }).length)
-  //       setPosts(res.data);
-  //       // console.log(res.data)
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8000/api/cart`);
+        getLength(res.data
+          .filter(function (posts:any) {
+            return posts.userId == user?.id;
+          }).length)
+        setPosts(res.data);
+        // console.log(res.data)
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
 
+const logout = ()=>{
+  localStorage.removeItem("user");
+  setPosts(true)
+}
 
 
   return (
@@ -65,7 +74,8 @@ console.log(currentUser?.data )
         <div className="sidebar-top">
         <span>{currentUser?.username}</span>
           {currentUser!=null ? (
-            <span ><button className="btn-logout ">LOGOUT</button>
+            <span onClick={logout}>
+              <button className="btn-logout ">LOGOUT</button>
             </span>
           ) : (
             <Link className="link" to="/login">
@@ -85,39 +95,25 @@ console.log(currentUser?.data )
             <div className="dropdown-container">Buy Sell</div>
           </Link>
 
-          {/* <Link to="/mybuys">
-            <div id="page-link">MyBuy</div>
-          </Link> */}
-
           <Link to="/mysell">
             <div id="page-link">MySell</div>
           </Link>
           <Link to="/mycart">
             <div id="page-link">CART</div>
           </Link>
-
-          {/* <div id="cart">
-              <span>10 </span><span>img</span>
-            </div> */}
-          {/* <Link to="/mybuy">
-            <div id="page-link">MyBuy</div>
-          </Link> */}
           <div className="create">
           <Link to="/addbook" className=" Link fs">
           <i className="fa-solid fa-circle-plus createBtn">1</i>
         </Link>
         
         </div>
-        {/* <Link to="/buyinformation">
-          <button className="btn btn-success">SEARCH</button>
-        </Link> */}
         </div >
 
         <Link to="/mycart">
         <div id="cart">
         <div id="cart-btn">
         <i className="fa-solid fa-cart-plus"></i>  
-        <span id="no">({length}) </span>
+        <span id="no">({length}) q</span>
         
         </div>
         </div>
