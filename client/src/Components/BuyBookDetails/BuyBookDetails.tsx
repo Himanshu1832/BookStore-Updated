@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../../FixedComponents/Sidebar/Sidebar";
-import { useAddToCart } from '../../Hooks/CustumHooks/useAddToCart';
+import { useAddToCart } from '../../Hooks/CustumHooks/PostHooks/useAddToCart';
 import { AddCartValues } from '../../Interface/Interface';
 import { useGetSingleBookFromCart } from "../../Hooks/CustumHooks/GetHooks/useGetSingleBookFromCart";
+import { useGetBooksFromCart } from "../../Hooks/CustumHooks/GetHooks/useGetBooksFromCart";
 
 import "./BuyBookDetails.css"
 import { user } from "../../Context/authContext";
@@ -21,6 +22,8 @@ const BuyBookDetail = () => {
   const bookId = Number(location.pathname.split("/")[2]);
 
   const { isLoading, data, isError, error, isFetching, refetch } = useGetSingleBookData(bookId);
+  const { data: Books } = useGetBooksFromCart();
+
   console.log(data)
 
 
@@ -30,14 +33,37 @@ const BuyBookDetail = () => {
     return <h2>Loading...</h2>
   }
 
-  const handleAddToCart = () => {
-    const cartData: AddCartValues = {
-      bookId: bookId,
-      userId: user.id,
-    };
-    console.log(cartData);
+  const handleAddToCart = async () => {
 
-    mutate(cartData);
+    console.log(!Books?.data
+      .find(function (books: any) {
+        return books?.userId == user.id;
+      }))
+    console.log(user.id)
+    console.log(!Books?.data.find((o:any) => (o.bookId ==bookId && o.userId == user.id)))
+
+    
+// console.log(   Books?.data[0].userId )
+    console.log(Books?.data)
+
+    if (!Books?.data.find((o:any) => (o.bookId ==bookId && o.userId == user.id))) 
+    {
+      const cartData: AddCartValues = {
+        bookId: bookId,
+        userId: user.id,
+      };
+      console.log(cartData);
+
+      mutate(cartData);
+    }
+
+    // const cartData: AddCartValues = {
+    //   bookId: bookId,
+    //   userId: user.id,
+    // };
+    // console.log(cartData);
+
+    // mutate(cartData);
     // navigate("/mysell");
   };
 
@@ -85,7 +111,7 @@ const BuyBookDetail = () => {
                     __html: DOMPurify.sanitize(book.desc),
                   }}
                 ></p>{" "} */}
-                <p>{book.desc}</p>
+                <p>{data?.data.desc}</p>
               </div>
               <div className="font-bold mt-2 mrp">MRP : ₹ {data?.data.mrp}</div>
               <div className="font-bold mt-2 price">Price : ₹ {data?.data.price}</div>

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../../FixedComponents/Sidebar/Sidebar";
-import { useAddToCart } from '../../Hooks/CustumHooks/useAddToCart';
+import { useAddToCart } from '../../Hooks/CustumHooks/PostHooks/useAddToCart';
 import { AddCartValues } from '../../Interface/Interface';
 import { useGetSingleBookFromCart } from "../../Hooks/CustumHooks/GetHooks/useGetSingleBookFromCart";
 
@@ -13,7 +13,6 @@ import { user } from "../../Context/authContext";
 import { useGetSingleBookData } from "../../Hooks/CustumHooks/GetHooks/useGetSingleBookData";
 
 const SellBookDetail = () => {
-//   const [book, setbook] = useState<any>({});
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,7 +33,6 @@ const SellBookDetail = () => {
     try {
       
       await axios.delete(`http://localhost:8000/api/addbook/${bookId}`);
-
       navigate("/");
     } catch (err) {
       console.log(err);

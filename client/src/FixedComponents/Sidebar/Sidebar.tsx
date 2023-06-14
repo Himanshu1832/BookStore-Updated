@@ -5,36 +5,43 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { RegisterFormValues } from "../../Interface/Interface";
 import { user } from "../../Context/authContext";
+import { set } from "lodash";
 
 
 function Sidebar() {
-  var dropdown = document.getElementsByClassName("dropdown-btn");
-  var i;
+  // var dropdown = document.getElementsByClassName("dropdown-btn");
+  // var i;
   // const { currentUser, logout } = useContext(AuthContext);
-  const [currentUser, setCurrentUser] = useState<RegisterFormValues>();
+  //@ts-ignore
+  const [currentUser, setCurrentUser] = useState<RegisterFormValues | null>(JSON.parse(localStorage.getItem("user")) || null);
 
   useEffect(
    ()=>{
-  // @ts-ignore
-  const x = JSON.parse(localStorage.getItem("user"))
-
-   setCurrentUser(x) ;   
+    
    },[]
   );
 
-  for (i = 0; i < dropdown.length; i++) {
-    dropdown[i].addEventListener("click", function () {
-//@ts-ignore
-      this.classList.toggle("active");
-//@ts-ignore
-      var dropdownContent = this.nextElementSibling;
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-      } else {
-        dropdownContent.style.display = "block";
-      }
-    });
-  }
+  const [reload,setReload]=useState(false)
+//  //@ts-ignore
+//   let currentUser= JSON.parse(localStorage.getItem("user"))
+
+
+  const logout = () => {
+
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+
+    setReload(!reload)
+    setCurrentUser(null)
+    
+  };
+
+  const login = () => {
+
+    setReload(!reload)
+    
+    
+  };
 
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
@@ -60,10 +67,6 @@ function Sidebar() {
     fetchData();
   }, []);
 
-const logout = ()=>{
-  localStorage.removeItem("user");
-  setPosts(true)
-}
 
 
   return (
@@ -73,13 +76,15 @@ const logout = ()=>{
       <div id="title">BookStore</div>
         <div className="sidebar-top">
         <span>{currentUser?.username}</span>
+         
           {currentUser!=null ? (
             <span onClick={logout}>
-              <button className="btn-logout ">LOGOUT</button>
-            </span>
+            <button className="btn-logout ">LOGOUT</button>
+          </span>
           ) : (
-            <Link className="link" to="/login">
-          <button className="btn btn-success">LOGIN</button>
+            <Link className="link" to="/login" onClick={login}>
+                    <button className="btn btn-success">LOGIN</button>
+
               
             </Link>
           )}

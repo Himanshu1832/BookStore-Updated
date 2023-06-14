@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 import {  useQueryClient } from 'react-query';
-import { useCheckUser } from '../../Hooks/CustumHooks/useCheckUser';
+import { useCheckUser } from '../../Hooks/CustumHooks/PostHooks/useCheckUser';
 import { LoginFormValues } from '../../Interface/Interface';
 // import { AuthContext } from "../../Hooks/CustumHooks";
 import { useContext } from "react";

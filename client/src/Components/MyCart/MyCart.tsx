@@ -8,7 +8,7 @@ import Card from "../Card/Card";
 import { useQuery } from 'react-query'
 import {user} from "../../Context/authContext"
 import { useGetBooksFromCart } from "../../Hooks/CustumHooks/GetHooks/useGetBooksFromCart";
-
+import { map } from "lodash";
 
 const MyCart = () => {
   
@@ -16,7 +16,11 @@ const MyCart = () => {
 
 //   console.log(data?.data[0].book.id)
 
+// //@ts-ignore
+// const user = JSON.parse(localStorage.getItem('user'));
 
+//@ts-ignore
+const token = localStorage.getItem('token')||null;
   
   
   return (
@@ -26,7 +30,7 @@ const MyCart = () => {
           {
           data?.data
           .filter(function (books:any) {
-            return books?.userId == user.id;
+            return books?.userId == user?.id;
           })
           .map((book:any) => (
             // <div className="md-4">
